@@ -31,7 +31,7 @@ async def userinfo (self: BaseBot, user: User, message: str) -> None:
     try:
         last_login = (userinfo.user.last_online_in).strftime("%d/%m/%Y %H:%M:%S")
     except:
-        last_login = "Last login not available"
+        last_login = "Last login is available"
     #Get the number of posts and the most liked post
     userposts = await self.webapi.get_posts(author_id = user_id)
     number_of_posts = 0
