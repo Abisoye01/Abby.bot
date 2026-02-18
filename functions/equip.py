@@ -30,7 +30,7 @@ async def equip(self: BaseBot, user: User, message: str):
         category = item.category
         #--------------------------------------------------------#
         
-        verification = False
+        verification = True
         #checks if the bot has the item
         inventory = (await self.highrise.get_inventory()).items
         for inventory_item in inventory:
