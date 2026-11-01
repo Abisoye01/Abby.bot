@@ -1,7 +1,20 @@
 from flask import Flask
 from threading import Thread
 from highrise.__main__ import *
+import os
 import time
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ROOM_ID = os.getenv("ROOM_ID")
+BOT_TOKEN = os.getenv("HIGHRISE_BOT_TOKEN")
+
+if not ROOM_ID or not BOT_TOKEN:
+    raise RuntimeError(
+        "Missing HIGHRISE_BOT_TOKEN or ROOM_ID in your .env file. "
+        "Example:\nHIGHRISE_BOT_TOKEN=your_token\nROOM_ID=your_room_id"
+    )
 
 
 class WebServer():
@@ -22,8 +35,8 @@ class WebServer():
 
 
 class RunBot():
-  room_id = "6813ae5a9e0a5942f1555fe7"
-  bot_token = "eaf0508f50fe0e7f66fe5ba7b69e27fae0aa1b7c732a92ec53b03ef2b68a7a0b"
+  room_id = ROOM_ID
+  bot_token = BOT_TOKEN
   bot_file = "main"
   bot_class = "Bot"
 
@@ -32,7 +45,7 @@ class RunBot():
         BotDefinition(
             getattr(import_module(self.bot_file), self.bot_class)(),
             self.room_id, self.bot_token)
-    ]  # More BotDefinition classes can be added to the definitions list
+    ]
 
   def run_loop(self) -> None:
     while True:
@@ -45,5 +58,4 @@ class RunBot():
 
 if __name__ == "__main__":
   WebServer().keep_alive()
-
   RunBot().run_loop()
